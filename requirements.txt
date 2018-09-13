@@ -1,0 +1,4 @@
+pandas
+ansible_vault
+configparser
+
