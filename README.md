@@ -1,7 +1,5 @@
 # zabbix-ansible-inventory
 
-Manage hosts and hostgroups defined in Zabbix with Ansible.
-
 Zabinventory is an external [Ansible inventory script](https://docs.ansible.com/ansible/latest/user_guide/intro_dynamic_inventory.html). It request Zabbix API to retrieve hosts, hostgroups and hosts inventories.
 
 It permit to use Zabbix Hostgroups with Ansible
