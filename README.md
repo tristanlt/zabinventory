@@ -1,4 +1,4 @@
-# zabbix-ansible-inventory
+# zabinventory : Zabbix Ansible inventory script
 
 Zabinventory is an external [Ansible inventory script](https://docs.ansible.com/ansible/latest/user_guide/intro_dynamic_inventory.html). It request Zabbix API to retrieve hosts, hostgroups and hosts inventories.
 
