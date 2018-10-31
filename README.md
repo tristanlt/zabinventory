@@ -75,7 +75,7 @@ Inside folder which contains ansible.cfg file, simply run zabinventory script :
 
 It should return complete list of monitored hosts, hostgroups and inventory variables (inside \_meta).
 
-## Protect Zabbix credentials with Ansible Vault
+## (optional) Protect Zabbix credentials with Ansible Vault
 
 It is a good idea to protect your Zabbix credentials with Ansible Vault. 
 
