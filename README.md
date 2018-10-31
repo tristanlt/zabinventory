@@ -14,7 +14,7 @@ ansible cercloud-mfs -m debug -a "var=[date_hw_expiry]" --limit br156-156
 
 ## Installation
 
-Zabinventory is a Python script. It requires some extra-module.
+Zabinventory is a Python script. It requires some extra-modules.
 
 ```bash
 pip install pandas
@@ -22,12 +22,12 @@ pip install ansible_vault
 pip install config_parser
 ```
 
-Or more simply (use requirements.txt from repo)
+Or more simply, use __requirements.txt__ from repo :
 ```bash
 pip install -r requirements.txt
 ```
 
-Create your inventory folder
+Create your inventory folder and place __zabinventory__ inside it :
 ```
 inventory/
 ├── group_vars
@@ -37,24 +37,25 @@ inventory/
 │   └── IUEM-DC203-server
 └── zabinventory
 ```
+> If used, __group\_vars__ should be in the same directory as __zabinventory__.    
 
-## Zabbix API User creation
+
+## Zabbix User creation
 
 On the Zabbix user interface, create a user, this user will connect to the API to retrieve information. This user must be allowed to read all hostgroups that you want to configure with Ansible. It doesn't need frontend access.
 
-> Be sure that Zabbix User can read related hostgroups.
+> Be sure that Zabbix User is granted to read hostgroups you want to manage with Ansible.
 
 ## Configuration
 
-Zabinventory respect Ansible configuration placement rules. It will try to find configuration file inside :
+Zabinventory respect Ansible configuration location rules. It will try to find configuration in this order :
 
-* $ANSIBLE_CONFIG  
+* $ANSIBLE_CONFIG
 * ./ansible.cfg
 * ~/.ansible.cfg
 * /etc/ansible/ansible.cfg
 
-Edit or create your ansible.cfg
-
+Edit or create your ansible.cfg :
 ```ini
 [defaults]
 inventory      = ./inventory/zabinventory
@@ -68,9 +69,10 @@ zabbix_api_password = passw0rd
 ## Test
 
 Inside folder which contains ansible.cfg file, simply run zabinventory script :
-```
+```bash
 ./inventory/zabinventory
 ```
+
 It should return complete list of monitored hosts, hostgroups and inventory variables (inside \_meta).
 
 ## Protect Zabbix credentials with Ansible Vault
