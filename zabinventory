@@ -3,8 +3,25 @@
 
 """ zabbix_api_inventory.py: External Ansible inventory script which called Zabbix API to retrieve host, hostgroups and host inventory """ 
 
+# Copyright (c) 2018 Tristan Le Toullec.
+#  
+# This file is part of zabinventory
+# (see https://github.com/tristanlt/zabinventory).
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 __author__ = "Tristan Le Toullec"
-__license__ = "GPL"
 __version__ = "0.1"
 __email__ = "tristan.letoullec@cnrs.fr"
 __status__ = ""
@@ -190,24 +207,29 @@ class ZabbixAnsibleInventory:
         zabbix_hostgroups = self.zabt.get_zabbix_hostgroups_by_name(self.zabbix_url,
                                                                self.auth)
 
+        allgroup = []
+
         # On Ansible 1.3 and newers, we can add hostvars on list to limit API Calls
         # Generate _meta for response
         # Only Zabbix Inventory was added to _meta
         hostvars = {}
         for hostname in zabbix_hosts.keys():
+            # Append to all
+            if hostname not in allgroup:
+                allgroup.append(hostname)
             if "inventory" in zabbix_hosts[hostname].keys():
                 if zabbix_hosts[hostname]['inventory']:
                     hostvars[hostname] = zabbix_hosts[hostname]['inventory']
         #hostvars = { hostname:zabbix_hosts[hostname]['inventory'] for hostname in zabbix_hosts.keys() }
         hg_inventory = { "_meta": {
                           "hostvars": hostvars
-                         }
+                         },
+                         "all": allgroup
                        }
         # Generate hostgroup list with members
         hgdf = pd.DataFrame(zabbix_hostgroups)
         for hg in hgdf:
             hg_inventory[hg] = { "hosts": [ h['name'] for h in hgdf[hg].hosts ] }
-
         return hg_inventory
 
     def get_host_inventory(self, host):
